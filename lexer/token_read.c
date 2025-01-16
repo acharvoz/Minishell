@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes_handle.c                                    :+:      :+:    :+:   */
+/*   token_read.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 03:38:42 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/01/16 06:21:22 by acharvoz         ###   ########.fr       */
+/*   Created: 2025/01/16 05:03:30 by acharvoz          #+#    #+#             */
+/*   Updated: 2025/01/16 05:19:48 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	quotes_handle(int i, char *str, char del)
+int	is_whitespace(char c)
 {
-	int	j;
-
-	j = 0;
-	if (str[i + j] == del)
-	{
-		j++;
-		while (str[i + j] != del && str[i + j])
-			j++;
-		j++;
-	}
-	return (j);
+	return (c == ' ' || (c > 8 && c < 14));
 }
+
