@@ -6,40 +6,47 @@
 #    By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 19:54:20 by acharvoz          #+#    #+#              #
-#    Updated: 2025/01/06 20:00:27 by acharvoz         ###   ########.fr        #
+#    Updated: 2025/02/23 20:04:40 by acharvoz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS =	../printf/ft_printf.c			\
-		../printf/ft_print_char.c		\
-		../printf/ft_print_hexa.c		\
-		../printf/ft_print_nbr.c		\
-		../printf/ft_print_prct.c		\
-		../printf/ft_print_ptr.c		\
-		../printf/ft_print_str.c		\
-		../printf/ft_print_unsigned.c	\
-		
+SRCS =	main.c							\
+		lexer/lexer_utils.c				\
+		lexer/lexer_utils2.c			\
+		lexer/quotes_handle.c			\
+		lexer/token_read.c				\
+		lexer/token_handle.c			\
 
-CC = cc
-RM = rm -f
-FLAGS = -Wall -Werror -Wextra 
 NAME = minishell
+CC = cc
+CFLAGS = -Wall -Werror -Wextra
+RM = rm -f
+
+LIBFT_DIR = ../libft/
+LIBFT = $(LIBFT_DIR)/libft.a
+
 OBJS = $(SRCS:.c=.o)
+INCLUDES = -I$(LIBFT_DIR) -I./includes
 
 .c.o:
-	$(CC) $(FLAGS) -c $< -o $(<:.c=.o)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $(<:.c=.o)
 
-$(NAME): $(OBJS)
-	cc -o $(NAME) $(OBJS)
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_DIR)
 
 all: $(NAME)
 
 clean:
 	$(RM) $(OBJS)
+	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all re clean fclean
+.PHONY: all clean fclean re

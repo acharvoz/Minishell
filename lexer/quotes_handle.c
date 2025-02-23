@@ -6,11 +6,11 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 03:38:42 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/01/16 06:21:22 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:04:38 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	quotes_handle(int i, char *str, char del)
 {

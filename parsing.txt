@@ -25,4 +25,31 @@ To Do :
 
 -decomposer ma liste de commande afin de pouvoir faire les verifications necessaires.
 -organiser l'analyse de ma commande (premier element est bien une commande, deuxieme est soit une option(-n) soit un argument etc).
--
+
+
+
+Etat du lexer : 
+
+Token				Exemple				Description
+
+
+																					Command				ls					Une commande à exécuter
+Argument			-l					Un argument de la commande
+																					Opérateur			`					, >, <`
+Quoted String		"hello world"		Une chaîne entre guillemets
+Variable			$HOME				Une variable d'environnement
+
+
+Mon lexer ne repere pour l'instant que des mots et les operateurs.
+La difference entre un mot et une commande sera a faire dans le parser.
+
+Mot ou argument :
+Si ce n'est ni un operateur ou une variable d'environnement.
+
+Variable :
+$ suivi par 1 ou plusieurs caracteres
+
+
+////////////////////////////////////////////////
+jai de quoi check si apres $ c'est valide avec check_env_var, maintenant faire que
+ca le reconnait dans token.
