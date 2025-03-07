@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:13:27 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/02/23 20:04:39 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:12:13 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	read_words(int i, char *str, t_lexer **lexer_list)
 	j = 0;
 	while (str[i + j] && !(check_oper(str[i + j])))
 	{
-		j += quotes_handle(i + j, str, 34);
-		j += quotes_handle(i + j, str, 39);
+		j += quotes_handle(i + j, str, 34);//double quote
+		j += quotes_handle(i + j, str, 39);//single quote
 		if (is_whitespace(str[i + j]))
 			break ;
 		j++;

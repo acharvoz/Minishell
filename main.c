@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:52:19 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/02/23 20:38:10 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/03/07 16:01:15 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void print_lexer_token(t_lexer *lexer_list)
 
 //Lexer Error si une node n'a pas ete ajoutee
 
-int	main(void)
+int	main(char **envp)
 {
 	char	*input;
 	t_lexer	*lexer_list = NULL;

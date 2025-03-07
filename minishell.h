@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:52:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/02/23 20:18:13 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:12:30 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef enum s_tokens
 	GREAT_GREAT = 3,
 	LESS = 4,
 	LESS_LESS = 5,
-	WORD = 6,
+	WORD = 6, 
 	ENV_VAR = 7,
 }	t_tokens;
 

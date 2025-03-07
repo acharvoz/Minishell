@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 06:41:57 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/02/23 20:44:36 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/03/07 16:03:41 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,3 +80,10 @@ int	handle_var_env(char *str, int i, t_lexer **lexer_list)
 	}
 	return (0);
 }
+/*
+//changer $var en *chemin* // copier lenvp pour manipuler
+
+int	change_var_env(char *str, int i, t_lexer **lexer_list)
+{
+	
+}*/
