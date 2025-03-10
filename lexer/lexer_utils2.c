@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:18:44 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/03/04 14:35:14 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:21:20 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 const char *get_token_name(t_tokens token)
 {
 	if (token == PIPE)
-		return "PIPE";
+		return ("PIPE");
 	if (token == GREAT)
-		return "GREAT";
+		return ("GREAT");
 	if (token == GREAT_GREAT)
-		return "GREAT_GREAT";
+		return ("GREAT_GREAT");
 	if (token == LESS)
-		return "LESS";
+		return ("LESS");
 	if (token == LESS_LESS)
-		return "LESS_LESS";
+		return ("LESS_LESS");
 	if (token == WORD)
-		return "WORD";
+		return ("WORD");
 	if (token == ENV_VAR)
-		return "ENV_VAR";
-	return "UNKNOWN";
+		return ("ENV_VAR");
+	return ("UNKNOWN");
 }
 
 int	is_whitespace(char c)

@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:52:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/03/03 15:12:30 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:21:23 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_tools
 
 //												LEXER											//
 
-int	token_reader(char *str, t_lexer **lexer_list);
+int	token_reader(char *str, t_lexer **lexer_list, char **envp_cpy);
 int	handle_operator(char *str, int i, t_lexer **lexer_list);
 t_tokens	check_oper(int c);
 int	quotes_handle(int i, char *str, char del);
@@ -78,6 +78,8 @@ int	skip_spaces(char *str, int i);
 void print_lexer_token(t_lexer *lexer_list);
 const char *get_token_name(t_tokens token);
 char check_env_var(char *str);
-int	handle_var_env(char *str, int i, t_lexer **lexer_list);
+int	handle_var_env(char *str, int i, t_lexer **lexer_list, char **envp_cpy);
+char **ft_strcpy_envp(char **envp);
+char *change_var_env(char **envp_cpy, char *var_env);
 
 #endif

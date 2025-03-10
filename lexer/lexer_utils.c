@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:13:27 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/03/03 15:12:13 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:09:53 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	read_words(int i, char *str, t_lexer **lexer_list)
 	}
 	if (!add_node(ft_substr(str, i, j), WORD, lexer_list))
 		return (-1);
+	
 	return (j);
 }
 
@@ -43,18 +44,19 @@ int	skip_spaces(char *str, int i)
 
 t_lexer	*ft_lexer_new(char *str, int token)
 {
-	t_lexer		*new_element;
-	static int	i = 0;
+	t_lexer	*new_node;
 
-	new_element = (t_lexer *)malloc(sizeof(t_lexer));
-	if (!new_element)
-		return (0);
-	new_element->str = str;
-	new_element->token = token;
-	new_element->i = i++;
-	new_element->next = NULL;
-	new_element->prev = NULL;
-	return (new_element);
+	new_node = (t_lexer *)malloc(sizeof(t_lexer));
+	if (!new_node)
+		return (NULL);
+	if (str)
+		new_node->str = ft_strdup(str);
+	else
+		new_node->str = NULL;
+	new_node->token = token;
+	new_node->next = NULL;
+	new_node->prev = NULL;
+	return (new_node);
 }
 //ajoute a la fin de la liste chainee
 
@@ -77,11 +79,11 @@ void	ft_lexer_add_back(t_lexer **lst, t_lexer *new)
 
 int	add_node(char *str, t_tokens token, t_lexer **lexer_list)
 {
-	t_lexer	*node;
+	t_lexer	*new_node;
 
-	node = ft_lexer_new(str, token);
-	if (!node)
+	new_node = ft_lexer_new(str, token);
+	if (!new_node)
 		return (0);
-	ft_lexer_add_back(lexer_list, node);
+	ft_lexer_add_back(lexer_list, new_node);
 	return (1);
 }

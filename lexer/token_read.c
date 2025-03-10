@@ -6,13 +6,13 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 05:03:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/03/04 15:00:12 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:21:49 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	token_reader(char *str, t_lexer **lexer_list)
+int	token_reader(char *str, t_lexer **lexer_list, char **envp_cpy)
 {
 	int		i;
 	int		j;
@@ -25,7 +25,7 @@ int	token_reader(char *str, t_lexer **lexer_list)
 		if (check_oper(str[i]))
 			j = handle_operator(str, i, lexer_list);
 		else if (check_env_var(&str[i]))
-			j = handle_var_env(str, i, lexer_list);
+			j = handle_var_env(str, i, lexer_list, envp_cpy);
 		else
 			j = read_words(i, str, lexer_list);
 		if (j < 0)
