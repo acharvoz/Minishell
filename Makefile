@@ -6,7 +6,7 @@
 #    By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 19:54:20 by acharvoz          #+#    #+#              #
-#    Updated: 2025/02/23 20:04:40 by acharvoz         ###   ########.fr        #
+#    Updated: 2025/03/27 15:57:55 by acharvoz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,10 @@ SRCS =	main.c							\
 		lexer/lexer_utils2.c			\
 		lexer/quotes_handle.c			\
 		lexer/token_read.c				\
+		lexer/token_read_utils.c		\
 		lexer/token_handle.c			\
+		parser/parser_pipe.c			\
+		parser/command_utils.c			\
 
 NAME = minishell
 CC = cc

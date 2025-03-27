@@ -6,30 +6,11 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:13:27 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/03/10 14:09:53 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:42:15 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	read_words(int i, char *str, t_lexer **lexer_list)
-{
-	int	j;
-
-	j = 0;
-	while (str[i + j] && !(check_oper(str[i + j])))
-	{
-		j += quotes_handle(i + j, str, 34);//double quote
-		j += quotes_handle(i + j, str, 39);//single quote
-		if (is_whitespace(str[i + j]))
-			break ;
-		j++;
-	}
-	if (!add_node(ft_substr(str, i, j), WORD, lexer_list))
-		return (-1);
-	
-	return (j);
-}
 
 int	skip_spaces(char *str, int i)
 {

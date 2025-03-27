@@ -6,13 +6,13 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:18:44 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/03/10 14:21:20 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:54:50 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-const char *get_token_name(t_tokens token)
+const char	*get_token_name(t_tokens token)
 {
 	if (token == PIPE)
 		return ("PIPE");
@@ -38,14 +38,29 @@ int	is_whitespace(char c)
 
 //check si apres $ pour var env est valide ( _ ou lettre)
 
-char check_env_var(char *str)
+char	check_env_var(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (str[i] == '$' && ((str[i + 1] == '_') 
-		|| (((str[i + 1] >= 65) && (str[i + 1] <= 90))) 
-		|| ((str[i + 1] >= 97) && (str[i + 1] <= 122))))
+	if (str[i] == '$' && ((str[i + 1] == '_')
+			|| (((str[i + 1] >= 65) && (str[i + 1] <= 90)))
+			|| ((str[i + 1] >= 97) && (str[i + 1] <= 122))))
 		return (1);
-	return(0);
+	return (0);
+}
+
+void	parsing_start(char *input, char **envp_cpy)
+{
+	t_lexer	*lexer_list;
+	int i;
+
+	i = 0;
+	lexer_list = NULL;
+	i = token_reader(input, &lexer_list, envp_cpy);
+	if (i == -1)
+		return ;
+	print_lexer_token(lexer_list);
+	call_parser(&lexer_list);
+	return ;
 }
