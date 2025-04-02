@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 06:41:57 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/03/26 15:33:14 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:30:09 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,33 +59,6 @@ t_tokens	check_oper(int c)
 		i++;
 	}
 	return (0);
-}
-
-int	handle_var_env(char *str, int i, t_lexer **lexer_list, char **envp_cpy)
-{
-	int		j;
-	char	*var_name;
-	char	*env_value;
-
-	if (str[i] != '$' || !(str[i + 1] == '_' || ft_isalpha(str[i + 1])))
-		return (0);
-	j = i + 1;
-	while (str[j] && (str[j] == '_' || ft_isalnum(str[j])))
-		j++;
-	var_name = ft_substr(str, i + 1, j - i - 1);
-	if (!var_name)
-		return (0);
-	env_value = change_var_env(envp_cpy, var_name);
-	free(var_name);
-	if (env_value)
-	{
-		if (!add_node(ft_strdup(env_value), ENV_VAR, lexer_list))
-			return (free(env_value), -1);
-		free(env_value);
-	}
-	else if (!add_node(ft_strdup("$"), ENV_VAR, lexer_list))
-		return (-1);
-	return (j - i);
 }
 
 //trouver et return la valeur de la var d'env;

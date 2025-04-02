@@ -6,11 +6,13 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:42:23 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/03/27 16:22:50 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:30:16 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+//fixe pour faire en sorte que ca expand dans tous les cas sauf les simple quotes
 
 char	*ft_strjoin_char(char *s, char c)
 {
@@ -75,9 +77,7 @@ char	*expand_env_var(char *str, char **envp_cpy)
 	{
 		if (str[i] == '$' && str[i + 1]
 			&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
-		{
 			result = expand_env_var2(str, &i, envp_cpy, result);
-		}
 		else
 		{
 			temp = result;

@@ -6,43 +6,65 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 05:03:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/03/27 16:26:57 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:13:41 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy)
+//besoin de regerer les unclosed quotes
+
+int var_quotes(int i, char *str, int *quote, int *j)
+{
+	if (str[i + *j] == 34 || str[i + *j] == 39)
+	{
+		*quote = quotes_handle(i + *j, str, str[i + *j]);
+		if (*quote == -1)
+			return (-1);
+		*j += *quote;
+	}
+	return (0);
+}
+//gere la gestion du mot
+
+int read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy)
 {
 	int		j;
-	int		ret;
+	int		quote;
 	char	*word;
-	char	*expanded_word;
 
 	j = 0;
-	while (str[i + j] && !(check_oper(str[i + j])))
+	quote = 0;
+	while (str[i + j] && !check_oper(str[i + j]))
 	{
-		ret = quotes_handle(i + j, str, 34); // double quote
-		if (ret == -1)
+		if (var_quotes(i, str, &quote, &j) == -1 || is_whitespace(str[i + j]))
 			return (-1);
-		j += ret;
-		ret = quotes_handle(i + j, str, 39); // single quote
-		if (ret == -1)
-			return (-1);
-		j += ret;
-		if (is_whitespace(str[i + j]))
-			break ;
 		j++;
 	}
 	word = ft_substr(str, i, j);
-	word = remove_quotes(word);
-	expanded_word = expand_env_var(word, envp_cpy);
-	free(word);
-	if (!expanded_word)
-		return (-1);
-	if (!add_node(expanded_word, WORD, lexer_list))
-		return (-1);
+	word = process_word(word, j, str, envp_cpy);
+	add_node(word, ENV_VAR, lexer_list);
 	return (j);
+}
+//gere l'expander dans les quotes
+
+char	*process_word(char *word, int j, char *str, char **envp_cpy)
+{
+	char	*expanded_word;
+
+	if (str[0] == '\'' && str[j - 2] == '\'')
+		word = remove_simple_quotes(word);
+	else if (word[0] != '\'' && word[j - 1] != '\'')
+	{
+		expanded_word = expand_env_var(word, envp_cpy);
+		free(word);
+		word = expanded_word;
+		if (word[0] == '"' && word[strlen(word) - 1] == '"')
+			word = remove_double_quotes(word);
+	}
+	else
+		word = remove_double_quotes(word);
+	return (word);
 }
 
 int	token_reader(char *str, t_lexer **lexer_list, char **envp_cpy)
@@ -57,11 +79,9 @@ int	token_reader(char *str, t_lexer **lexer_list, char **envp_cpy)
 		i += skip_spaces(str, i);
 		if (check_oper(str[i]))
 			j = handle_operator(str, i, lexer_list);
-		else if (check_env_var(&str[i]))
-			j = handle_var_env(str, i, lexer_list, envp_cpy);
 		else
 			j = read_words(i, str, lexer_list, envp_cpy);
-		if (j < 0)
+		if (j <= 0)
 			return (0);
 		i += j;
 	}
