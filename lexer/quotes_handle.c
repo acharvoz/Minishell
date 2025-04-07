@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 03:38:42 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/01 19:33:36 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:09:48 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	quotes_handle(int i, char *str, char del)
 }
 
 //supprime les quotes dans la sortie finale
-
+// a fix
 char *remove_double_quotes(char *str)
 {
 	int len;

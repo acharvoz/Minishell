@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 06:41:57 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/01 19:30:09 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:07:34 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,30 @@
 int	handle_operator(char *str, int i, t_lexer **lexer_list)
 {
 	t_tokens	token;
+	char		*op_str;
 
 	token = check_oper(str[i]);
 	if (token == GREAT && check_oper(str[i + 1]) == GREAT)
 	{
-		if (!add_node(NULL, GREAT_GREAT, lexer_list))
+		op_str = ft_strdup(">>");
+		if (!op_str || !add_node(op_str, GREAT_GREAT, lexer_list))
 			return (-1);
 		return (2);
 	}
 	else if (token == LESS && check_oper(str[i + 1]) == LESS)
 	{
-		if (!add_node(NULL, LESS_LESS, lexer_list))
+		op_str = ft_strdup("<<");
+		if (!op_str || !add_node(op_str, LESS_LESS, lexer_list))
 			return (-1);
 		return (2);
 	}
-	else if (token)
+	else
 	{
-		if (!add_node(NULL, token, lexer_list))
+		op_str = ft_substr(str, i, 1);
+		if (!op_str || !add_node(op_str, token, lexer_list))
 			return (-1);
 		return (1);
 	}
-	return (0);
 }
 
 //Check les operateurs 'simples'

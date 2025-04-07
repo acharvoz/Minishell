@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:08:56 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/03/12 14:40:14 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:20:27 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	add_token_to_cmd(t_simple_cmds *cmd, t_lexer *tmp)
 		new_str[i] = cmd->str[i];
 		i++;
 	}
-	new_str[count] = strdup(tmp->str);
+	new_str[count] = ft_strdup(tmp->str);
 	new_str[count + 1] = NULL;
 	free(cmd->str);
 	cmd->str = new_str;
@@ -74,5 +74,5 @@ void	print_cmd(t_simple_cmds *cmd)
 		printf("%s ", cmd->str[i]);
 		i++;
 	}
-	printf("\n");
+	printf("\n");//fait la ligne vide quand operateur seul mais manque quand je met autre chose
 }

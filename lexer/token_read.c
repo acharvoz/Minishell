@@ -6,14 +6,13 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 05:03:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/02 16:13:41 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:12:03 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//besoin de regerer les unclosed quotes
-
+//unclosed quotes a fix
 int var_quotes(int i, char *str, int *quote, int *j)
 {
 	if (str[i + *j] == 34 || str[i + *j] == 39)
@@ -27,25 +26,40 @@ int var_quotes(int i, char *str, int *quote, int *j)
 }
 //gere la gestion du mot
 
-int read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy)
+int	read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy)
 {
 	int		j;
 	int		quote;
 	char	*word;
 
 	j = 0;
-	quote = 0;
-	while (str[i + j] && !check_oper(str[i + j]))
+	while (str[i + j] && !check_oper(str[i + j]) && !is_whitespace(str[i + j]))
 	{
-		if (var_quotes(i, str, &quote, &j) == -1 || is_whitespace(str[i + j]))
-			return (-1);
-		j++;
+		if (str[i + j] == 34 || str[i + j] == 39)
+		{
+			quote = quotes_handle(i + j, str, str[i + j]);
+			if (quote == -1)
+				return (-1);
+			j += quote;
+		}
+		else
+			j++;
 	}
 	word = ft_substr(str, i, j);
-	word = process_word(word, j, str, envp_cpy);
-	add_node(word, ENV_VAR, lexer_list);
+	if (!word)
+		return (-1);
+	if (word[0] != '\'')  // Expansion only if not in single quotes
+		word = expand_env_var(word, envp_cpy);
+	// Remove quotes after expansion
+	if (word[0] == '\'' && word[ft_strlen(word) - 1] == '\'')
+		word = remove_simple_quotes(word);
+	else if (word[0] == '"' && word[ft_strlen(word) - 1] == '"')
+		word = remove_double_quotes(word);
+	if (!add_node(word, WORD, lexer_list))
+		return (-1);
 	return (j);
 }
+
 //gere l'expander dans les quotes
 
 char	*process_word(char *word, int j, char *str, char **envp_cpy)

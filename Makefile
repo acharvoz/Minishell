@@ -6,7 +6,7 @@
 #    By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 19:54:20 by acharvoz          #+#    #+#              #
-#    Updated: 2025/03/27 15:57:55 by acharvoz         ###   ########.fr        #
+#    Updated: 2025/04/02 17:18:24 by acharvoz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS =	main.c							\
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g3
 RM = rm -f
 
 LIBFT_DIR = ../libft/
