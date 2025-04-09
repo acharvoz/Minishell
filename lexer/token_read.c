@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 05:03:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/07 15:12:03 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:53:26 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ int var_quotes(int i, char *str, int *quote, int *j)
 int	read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy)
 {
 	int		j;
-	int		quote;
+	int quote;
 	char	*word;
 
 	j = 0;
+	quote = 0;
 	while (str[i + j] && !check_oper(str[i + j]) && !is_whitespace(str[i + j]))
 	{
 		if (str[i + j] == 34 || str[i + j] == 39)
@@ -48,13 +49,7 @@ int	read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy)
 	word = ft_substr(str, i, j);
 	if (!word)
 		return (-1);
-	if (word[0] != '\'')  // Expansion only if not in single quotes
-		word = expand_env_var(word, envp_cpy);
-	// Remove quotes after expansion
-	if (word[0] == '\'' && word[ft_strlen(word) - 1] == '\'')
-		word = remove_simple_quotes(word);
-	else if (word[0] == '"' && word[ft_strlen(word) - 1] == '"')
-		word = remove_double_quotes(word);
+	word = process_word(word, envp_cpy);
 	if (!add_node(word, WORD, lexer_list))
 		return (-1);
 	return (j);
@@ -62,23 +57,55 @@ int	read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy)
 
 //gere l'expander dans les quotes
 
-char	*process_word(char *word, int j, char *str, char **envp_cpy)
+//voir notes avant remove quotes
+//"'$HOME'" -> 'expanded'
+//trouver le cas ou 
+char	*process_word(char *word, char **envp_cpy)
 {
+	int i;
+	bool simple_quote;
 	char	*expanded_word;
 
-	if (str[0] == '\'' && str[j - 2] == '\'')
-		word = remove_simple_quotes(word);
-	else if (word[0] != '\'' && word[j - 1] != '\'')
+	i = 0;
+	simple_quote = true;
+	while(word[i] && word[i] != '\'')
+		i++;
+	if (word[i] == '\'')
+	{
+		i++;;
+		while(word[i] && word[i] != '\'')
+			i++;
+		if (word[i] == '\'')
+			simple_quote = false;
+	}
+	if (simple_quote == true)//implementer var_simple_double
 	{
 		expanded_word = expand_env_var(word, envp_cpy);
 		free(word);
 		word = expanded_word;
-		if (word[0] == '"' && word[strlen(word) - 1] == '"')
-			word = remove_double_quotes(word);
 	}
-	else
-		word = remove_double_quotes(word);
+	word = remove_quotes(word);
 	return (word);
+}
+
+void	var_simple_double(char *str, char **envp_cpy)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while(str[i] && str[i] != '\'')//parcours jusqu'a simple
+		i++;
+	if (str[i] == '\'')
+	{
+		while(str[j] != '\"' && str[j] != '\'')//reparcours jusqu'a double ou simple
+			j++;
+		if (str[j] == '\"' && j < i)//si j est double et qu'elle est avant la simple
+		{
+			//autoriser l'expanding et garder les simple quotes
+		}
+	}
 }
 
 int	token_reader(char *str, t_lexer **lexer_list, char **envp_cpy)

@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 03:38:42 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/07 15:09:48 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:39:09 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,37 +33,32 @@ int	quotes_handle(int i, char *str, char del)
 }
 
 //supprime les quotes dans la sortie finale
-// a fix
-char *remove_double_quotes(char *str)
+// a fix -> probleme de placement des quotes pour les supprimer ne supprime que le debut et la fin asd'$HOME'asdasd -> asdasd'/home/acharvoz'asdasd WRONG
+//modifier avec process word pour gerer l'expansion car ici ca expand alors quil ne faudrait pas.
+
+char	*remove_quotes(char *str)
 {
-	int len;
+	int		i;
+	int		j;
+	int		single_quote;
+	int		double_quote;
+	char	*new_str;
 
-	len = ft_strlen(str);
-	if ((str[0] == '"') && (str[len - 1] == '"'))
+	new_str = malloc(strlen(str) + 1);
+	i = 0;
+	j = 0;
+	single_quote = 0;
+	double_quote = 0;
+	while (str[i])
 	{
-		char *new_str = malloc(len - 1);
-		if (new_str == NULL)
-			return (NULL);
-		ft_strncpy(new_str, str + 1, len - 2);
-		new_str[len - 2] = '\0';
-		return (new_str);
+		if (str[i] == '\'' && !double_quote)
+			single_quote = !single_quote;
+		else if (str[i] == '\"' && !single_quote)
+			double_quote = !double_quote;
+		else
+			new_str[j++] = str[i];
+		i++;
 	}
-	return (str);
-}
-
-char *remove_simple_quotes(char *str)
-{
-	int len;
-
-	len = ft_strlen(str);
-	if ((str[0] == '\'') && (str[len - 1] == '\''))
-	{
-		char *new_str = malloc(len - 1);
-		if (new_str == NULL)
-			return (NULL);
-		ft_strncpy(new_str, str + 1, len - 2);
-		new_str[len - 2] = '\0';
-		return (new_str);
-	}
-	return (str);
+	new_str[j] = '\0';
+	return (new_str);
 }

@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:52:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/07 15:07:21 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:49:19 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <pthread.h>
 # include <limits.h>
 # include <sys/time.h>
+# include <stdbool.h>
 
 typedef enum s_tokens
 {
@@ -94,10 +95,10 @@ t_simple_cmds	*build_cmd_list(t_lexer **lexer_list);
 t_simple_cmds	*section_pipe(t_lexer **lexer_list);
 void	add_token_to_cmd(t_simple_cmds *cmd, t_lexer *tmp);
 t_simple_cmds	*init_simple_cmd(void);
-char *remove_simple_quotes(char *str);
-char *remove_double_quotes(char *str);
+char	*remove_quotes(char *str);
 int var_quotes(int i, char *str, int *quote, int *j);
-char	*process_word(char *word, int j, char *str, char **envp_cpy);
+char	*process_word(char *word, char **envp_cpy);
+void	var_simple_double(char *str, char **envp_cpy);
 //------------------------------------------TESTS------------------------------------------//
 
 void	print_cmd(t_simple_cmds *cmd);
