@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 03:38:42 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/09 18:39:09 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:43:46 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int	quotes_handle(int i, char *str, char del)
 }
 
 //supprime les quotes dans la sortie finale
-// a fix -> probleme de placement des quotes pour les supprimer ne supprime que le debut et la fin asd'$HOME'asdasd -> asdasd'/home/acharvoz'asdasd WRONG
-//modifier avec process word pour gerer l'expansion car ici ca expand alors quil ne faudrait pas.
 
 char	*remove_quotes(char *str)
 {

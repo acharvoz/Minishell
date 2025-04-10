@@ -6,13 +6,14 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 05:03:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/09 18:53:26 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:43:35 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 //unclosed quotes a fix
+
 int var_quotes(int i, char *str, int *quote, int *j)
 {
 	if (str[i + *j] == 34 || str[i + *j] == 39)
@@ -57,55 +58,26 @@ int	read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy)
 
 //gere l'expander dans les quotes
 
-//voir notes avant remove quotes
-//"'$HOME'" -> 'expanded'
-//trouver le cas ou 
-char	*process_word(char *word, char **envp_cpy)
+char	*process_word(char *str, char **envp_cpy)
 {
 	int i;
-	bool simple_quote;
+	bool expand;
 	char	*expanded_word;
 
 	i = 0;
-	simple_quote = true;
-	while(word[i] && word[i] != '\'')
-		i++;
-	if (word[i] == '\'')
-	{
-		i++;;
-		while(word[i] && word[i] != '\'')
-			i++;
-		if (word[i] == '\'')
-			simple_quote = false;
-	}
-	if (simple_quote == true)//implementer var_simple_double
-	{
-		expanded_word = expand_env_var(word, envp_cpy);
-		free(word);
-		word = expanded_word;
-	}
-	word = remove_quotes(word);
-	return (word);
-}
-
-void	var_simple_double(char *str, char **envp_cpy)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while(str[i] && str[i] != '\'')//parcours jusqu'a simple
+	expand = true;
+	while(str[i] && str[i] != '\'' && str[i] != '\"')
 		i++;
 	if (str[i] == '\'')
+		expand = false;
+	else if (expand == true)
 	{
-		while(str[j] != '\"' && str[j] != '\'')//reparcours jusqu'a double ou simple
-			j++;
-		if (str[j] == '\"' && j < i)//si j est double et qu'elle est avant la simple
-		{
-			//autoriser l'expanding et garder les simple quotes
-		}
+		expanded_word = expand_env_var(str, envp_cpy);
+		free(str);
+		str = expanded_word;
 	}
+	str = remove_quotes(str);
+	return (str);
 }
 
 int	token_reader(char *str, t_lexer **lexer_list, char **envp_cpy)

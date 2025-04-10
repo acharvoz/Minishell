@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:05:46 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/09 18:40:47 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:42:16 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ liste des tests et resultats :
 -'$HOME' -> $HOME
 -"$HOME" -> /home/acharvoz
 -'"$HOME"' -> "$HOME"
--"'$HOME'" -> '/home/acharvoz'					//s'expand pas ici soucis
+-"'$HOME'" -> '/home/acharvoz'
 -e'c'"h"o -> fait echo donc ligne vide
 -test'$HOME'test -> test$HOMEtest
 -test"$HOME"test -> test/home/acharvoztest
