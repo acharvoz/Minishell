@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:42:23 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/15 15:33:59 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:00:29 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,11 @@ char	*ft_strjoin_char(char *s, char c)
 	return (new_str);
 }
 
-//doit faire en sorte que quand $1USER (exemple) alors -> $1 delete et reste USER
-
 char	*expand_env_var2(char *str, int *i, char **envp_cpy, char *result)
 {
 	int		j;
 	char	*var_name;
 	char	*env_value;
-	char	*temp;
 
 	j = *i + 1;
 	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
@@ -51,42 +48,43 @@ char	*expand_env_var2(char *str, int *i, char **envp_cpy, char *result)
 	var_name = ft_substr(str, *i + 1, j - *i - 1);
 	env_value = change_var_env(envp_cpy, var_name);
 	free(var_name);
-	temp = result;
 	if (env_value)
 		result = ft_strjoin(result, env_value);
 	else
 		result = ft_strjoin(result, "");
-	free(temp);
 	if (env_value)
 		free(env_value);
 	*i = j;
 	return (result);
 }
 
-char	*expand_env_var(char *str, char **envp_cpy)
+//expand les variables -> si expand pas 1 alors expand aucune a fix
+
+char	*expand_env_var(char *str, char **envp_cpy, int i)
 {
-	int		i;
 	char	*result;
-	char	*temp;
+	bool	quote;
 
 	if (!str)
 		return (NULL);
 	result = ft_strdup("");
-	i = 0;
+	quote = false;
 	while (str[i])
 	{
 		if (str[i] == '$' && str[i + 1]
-			&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
+			&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_') && !quote)
 			result = expand_env_var2(str, &i, envp_cpy, result);
 		else if (ft_isdigit(str[i + 1]) == 1)
 			i = 2;
 		else
 		{
-			temp = result;
 			result = ft_strjoin_char(result, str[i]);
-			free(temp);
 			i++;
 		}
+		if (str[i] == '\'' && !quote)
+			quote = true;
+		else if (str[i] == '\'' && quote)
+			quote = false;
 	}
 	return (result);
 }

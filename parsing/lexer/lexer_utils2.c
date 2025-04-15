@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:18:44 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/10 20:04:17 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:10:04 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,12 @@ const char	*get_token_name(t_tokens token)
 		return ("LESS_LESS");
 	if (token == WORD)
 		return ("WORD");
-	if (token == ENV_VAR)
-		return ("ENV_VAR");
 	return ("UNKNOWN");
 }
 
 int	is_whitespace(char c)
 {
 	return (c == ' ' || (c > 8 && c < 14));
-}
-
-//check si apres $ pour var env est valide ( _ ou lettre)
-
-char	check_env_var(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '$' && ((str[i + 1] == '_')
-			|| (((str[i + 1] >= 65) && (str[i + 1] <= 90)))
-			|| ((str[i + 1] >= 97) && (str[i + 1] <= 122))))
-		return (1);
-	return (0);
 }
 
 void	parsing_start(char *input, char **envp_cpy)

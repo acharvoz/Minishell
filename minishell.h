@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:52:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/15 14:24:05 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:10:12 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ typedef enum s_tokens
 	GREAT_GREAT = 3,
 	LESS = 4,
 	LESS_LESS = 5,
-	WORD = 6, 
-	ENV_VAR = 7,
+	WORD = 6,
 }	t_tokens;
 
 typedef struct s_lexer
@@ -80,22 +79,20 @@ int	handle_operator(char *str, int i, t_lexer **lexer_list);
 int	add_node(char *str, t_tokens token, t_lexer **lexer_list);
 int	token_reader(char *str, t_lexer **lexer_list, char **envp_cpy);
 int	read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy);
-char check_env_var(char *str);
 char	*remove_quotes(char *str);
 char **ft_strcpy_envp(char **envp);
 char	*ft_strjoin_char(char *s, char c);
 char	*process_word(char *str, char **envp_cpy);
 char *change_var_env(char **envp_cpy, char *var_env);
-char	*expand_env_var(char *str, char **envp_cpy);
+char	*expand_env_var(char *str, char **envp_cpy, int i);
 char	*expand_env_var2(char *str, int *i, char **envp_cpy, char *result);
 const char *get_token_name(t_tokens token);
+void	handle_sigint(int sig);
 void	call_parser(t_lexer **lexer_list);
 void print_lexer_token(t_lexer *lexer_list);
 void	ft_lexer_add_back(t_lexer **lst, t_lexer *new);
 void	parsing_start(char *input, char **envp_cpy);
 void	add_token_to_cmd(t_simple_cmds *cmd, t_lexer *tmp);
-void	handle_sigint(int sig);
-void	handle_sigbackslash(int sig);
 //------------------------------------------TESTS------------------------------------------//
 
 void	print_cmd(t_simple_cmds *cmd);

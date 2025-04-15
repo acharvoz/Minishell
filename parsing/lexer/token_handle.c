@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 06:41:57 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/15 15:21:01 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:00:39 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ char	*change_var_env(char **envp_cpy, char *var_env)
 				printf("");
 				return (NULL);
 			}
-			//printf("DEBUG: value=%s\n", value);
 			return (value);
 		}
 		i++;

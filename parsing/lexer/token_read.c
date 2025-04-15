@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 05:03:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/15 15:19:27 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:14:29 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,20 @@ char	*process_word(char *str, char **envp_cpy)
 
 	i = 0;
 	expand = true;
-	while (str[i] && str[i] != '\'' && str[i] != '\"')
-		i++;
-	if (str[i] == '\'')
-		expand = false;
-	else if (expand == true)
+	while (str[i])
 	{
-		expanded_word = expand_env_var(str, envp_cpy);
+		if (str[i] == '\'' && expand == true)
+			expand = false;
+		else if (str[i] == '\'' && expand == false)
+			expand = true;
+		if (expand == true && str[i] == '$')
+			break ;
+		i++;
+	}
+	if (expand == true)
+	{
+		expanded_word = ft_strjoin(ft_substr(str, 0, i),
+				expand_env_var(str, envp_cpy, i));
 		free(str);
 		str = expanded_word;
 	}
@@ -77,6 +84,8 @@ int	token_reader(char *str, t_lexer **lexer_list, char **envp_cpy)
 	{
 		j = 0;
 		i += skip_spaces(str, i);
+		if (!str[i])
+			break;
 		if (check_oper(str[i]))
 			j = handle_operator(str, i, lexer_list);
 		else
