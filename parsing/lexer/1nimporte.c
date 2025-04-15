@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:05:46 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/10 20:06:46 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:34:53 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ liste des tests et resultats :
 -espaces debut et fin // espaces avant apres quotes
 // espaces avant et apres pipes // pipes dans quotes // pipes hors quotes
 
-actuels bugs
-
-
 -echo "12\"" -> demander comment ca doit se comporter
 -asdasd "$HOME""
+
+Questions :
+
+le "test\"" ce que je dois rendre car dans bash il se comporte comme en code
+
+
 */

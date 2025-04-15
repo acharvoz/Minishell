@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 06:41:57 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/10 20:04:54 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:21:01 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_tokens	check_oper(int c)
 	return (0);
 }
 
-//trouver et return la valeur de la var d'env
+//trouver et return la valeur de la var d'env grace a la copie
 
 char	*change_var_env(char **envp_cpy, char *var_env)
 {
@@ -83,7 +83,10 @@ char	*change_var_env(char **envp_cpy, char *var_env)
 		{
 			value = ft_strdup(envp_cpy[i] + var_len + 1);
 			if (!value)
+			{
+				printf("");
 				return (NULL);
+			}
 			//printf("DEBUG: value=%s\n", value);
 			return (value);
 		}
@@ -91,6 +94,7 @@ char	*change_var_env(char **envp_cpy, char *var_env)
 	}
 	return (NULL);
 }
+//copie l'env
 
 char	**ft_strcpy_envp(char **envp)
 {

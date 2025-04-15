@@ -6,11 +6,13 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:52:19 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/10 18:40:24 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/15 14:33:29 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//Print l'error
 
 void	print_lexer_token(t_lexer *lexer_list)
 {
@@ -24,8 +26,6 @@ void	print_lexer_token(t_lexer *lexer_list)
 	}
 }
 
-//Lexer Error si une node n'a pas ete ajoutee
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
@@ -34,11 +34,16 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	envp_cpy = ft_strcpy_envp(envp);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		input = readline("minishell$ ");
 		if (!input)
+		{
+			printf("exit\n");
 			break ;
+		}
 		if (input[0] != '\0')
 			add_history(input);
 		parsing_start(input, envp_cpy);
