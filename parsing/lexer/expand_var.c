@@ -6,13 +6,13 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:42:23 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/17 14:25:37 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:43:25 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*expand_env_var2(char *str, int *i, char **envp_cpy, char *result)
+char	*expand_env_var2(char *str, int *i, char **envp_cpy, char *rst)
 {
 	int		j;
 	char	*var_name;
@@ -25,16 +25,16 @@ char	*expand_env_var2(char *str, int *i, char **envp_cpy, char *result)
 	env_value = change_var_env(envp_cpy, var_name);
 	free(var_name);
 	if (env_value)
-		result = ft_strjoin(result, env_value);
+		rst = ft_strjoin(rst, env_value);
 	else
-		result = ft_strjoin(result, "");
+		rst = ft_strjoin(rst, "");
 	if (env_value)
 		free(env_value);
 	*i = j;
-	return (result);
+	return (rst);
 }
 
-//expand les variables -> si expand pas 1 alors expand aucune a fix
+//expand les variables
 
 char	*expand_env_var(char *str, char **envp_cpy, int i)
 {
@@ -62,4 +62,20 @@ char	*expand_env_var(char *str, char **envp_cpy, int i)
 		}
 	}
 	return (result);
+}
+
+//gere l'expander dans les quotes
+
+char	*process_word(char *str, char **envp_cpy)
+{
+	char	*expanded_word;
+
+	if (should_expand_var(str))
+	{
+		expanded_word = expand_env_var(str, envp_cpy, 0);
+		free(str);
+		str = expanded_word;
+	}
+	str = remove_quotes(str);
+	return (str);
 }

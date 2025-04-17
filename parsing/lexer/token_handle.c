@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 06:41:57 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/15 19:00:39 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:37:24 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,33 +92,4 @@ char	*change_var_env(char **envp_cpy, char *var_env)
 		i++;
 	}
 	return (NULL);
-}
-//copie l'env
-
-char	**ft_strcpy_envp(char **envp)
-{
-	char	**envp_cpy;
-	int		i;
-
-	i = 0;
-	while (envp[i] != NULL)
-		i++;
-	envp_cpy = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!envp_cpy)
-		return (NULL);
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		envp_cpy[i] = ft_strdup(envp[i]);
-		if (!envp_cpy[i])
-		{
-			while (--i >= 0)
-				free(envp_cpy[i]);
-			free(envp_cpy);
-			return (NULL);
-		}
-		i++;
-	}
-	envp_cpy[i] = NULL;
-	return (envp_cpy);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes_handle.c                                    :+:      :+:    :+:   */
+/*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 03:38:42 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/17 12:45:54 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:33:57 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,28 @@ char	*remove_quotes(char *str)
 	}
 	new_str[j] = '\0';
 	return (new_str);
+}
+
+//gere les simple et double quotes
+
+bool	should_expand_var(char *str)
+{
+	int		i;
+	bool	in_single;
+	bool	in_double;
+
+	i = 0;
+	in_single = false;
+	in_double = false;
+	while (str[i])
+	{
+		if (str[i] == '\"' && !in_single)
+			in_double = !in_double;
+		else if (str[i] == '\'' && !in_double)
+			in_single = !in_single;
+		if (str[i] == '$' && !in_single)
+			return (true);
+		i++;
+	}
+	return (false);
 }

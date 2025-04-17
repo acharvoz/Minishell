@@ -5,66 +5,85 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/21 15:13:27 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/15 18:05:20 by acharvoz         ###   ########.fr       */
+/*   Created: 2025/02/23 18:18:44 by acharvoz          #+#    #+#             */
+/*   Updated: 2025/04/17 14:36:38 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	skip_spaces(char *str, int i)
+int	is_whitespace(char c)
 {
-	int	j;
-
-	j = 0;
-	while (is_whitespace(str[i + j]))
-		j++;
-	return (j);
+	return (c == ' ' || (c > 8 && c < 14));
 }
-//creer un element 'token' de ma liste doublement chainee
 
-t_lexer	*ft_lexer_new(char *str, int token)
+//lance lexer/parser
+
+void	parsing_start(char *input, char **envp_cpy)
 {
-	t_lexer	*new_node;
+	t_lexer	*lexer_list;
+	int		i;
 
-	new_node = (t_lexer *)malloc(sizeof(t_lexer));
-	if (!new_node)
-		return (NULL);
-	if (str)
-		new_node->str = ft_strdup(str);
-	else
-		new_node->str = NULL;
-	new_node->token = token;
-	new_node->next = NULL;
-	new_node->prev = NULL;
-	return (new_node);
-}
-//ajoute a la fin de la liste chainee
-
-void	ft_lexer_add_back(t_lexer **lst, t_lexer *new)
-{
-	t_lexer	*tmp;
-
-	tmp = *lst;
-	if (*lst == NULL)
-	{
-		*lst = new;
+	i = 0;
+	lexer_list = NULL;
+	i = token_reader(input, &lexer_list, envp_cpy);
+	if (i <= 0)
 		return ;
-	}
-	while (tmp->next != NULL)
-		tmp = tmp->next;
-	tmp->next = new;
-	new->prev = tmp;
+	print_lexer_token(lexer_list);
+	call_parser(&lexer_list);
+	return ;
 }
-//creer la node et l'ajoute a la fin de la liste chainee
 
-int	add_node(char *str, t_tokens token, t_lexer **lexer_list)
+char	*ft_strjoin_char(char *s, char c)
 {
-	t_lexer	*new_node;
+	char	*new_str;
+	int		len;
+	int		i;
 
-	new_node = ft_lexer_new(str, token);
-	if (!new_node)
-		return (0);
-	ft_lexer_add_back(lexer_list, new_node);
-	return (1);
+	if (!s)
+		len = 0;
+	else
+		len = ft_strlen(s);
+	new_str = malloc(sizeof(char) * (len + 2));
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		new_str[i] = s[i];
+		i++;
+	}
+	new_str[i++] = c;
+	new_str[i] = '\0';
+	return (new_str);
+}
+
+//copie l'env
+
+char	**ft_strcpy_envp(char **envp)
+{
+	char	**envp_cpy;
+	int		i;
+
+	i = 0;
+	while (envp[i] != NULL)
+		i++;
+	envp_cpy = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!envp_cpy)
+		return (NULL);
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		envp_cpy[i] = ft_strdup(envp[i]);
+		if (!envp_cpy[i])
+		{
+			while (--i >= 0)
+				free(envp_cpy[i]);
+			free(envp_cpy);
+			return (NULL);
+		}
+		i++;
+	}
+	envp_cpy[i] = NULL;
+	return (envp_cpy);
 }

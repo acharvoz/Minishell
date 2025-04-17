@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 13:52:46 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/10 18:40:27 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:31:04 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	call_parser(t_lexer **lexer_list)
 
 	cmd_list = build_cmd_list(lexer_list);
 }
+
 //creer ma liste de commande
 
 t_simple_cmds	*build_cmd_list(t_lexer **lexer_list)
@@ -43,6 +44,7 @@ t_simple_cmds	*build_cmd_list(t_lexer **lexer_list)
 	}
 	return (cmd_list);
 }
+
 //separe ma ligne tokenisee en troncons autour des pipes
 
 t_simple_cmds	*section_pipe(t_lexer **lexer_list)

@@ -6,11 +6,13 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 09:08:56 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/15 16:08:00 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:40:51 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+//initialise la struct
 
 t_simple_cmds	*init_simple_cmd(void)
 {
@@ -33,6 +35,8 @@ t_simple_cmds	*init_simple_cmd(void)
 	cmd->prev = NULL;
 	return (cmd);
 }
+
+//ajoute le token a la liste chainee
 
 void	add_token_to_cmd(t_simple_cmds *cmd, t_lexer *tmp)
 {
@@ -60,6 +64,7 @@ void	add_token_to_cmd(t_simple_cmds *cmd, t_lexer *tmp)
 	cmd->str = new_str;
 	print_cmd(cmd);
 }
+
 //fonction test pour afficher avant et apres les pipes.
 
 void	print_cmd(t_simple_cmds *cmd)

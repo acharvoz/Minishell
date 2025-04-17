@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 05:03:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/17 14:26:40 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:42:53 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //gere la gestion du mot
 
-int	read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy)
+int	read_words(int i, char *str, t_lexer **lx_lst, char **envp_cpy)
 {
 	int		j;
 	int		quote;
@@ -38,48 +38,12 @@ int	read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy)
 	if (!word)
 		return (-1);
 	word = process_word(word, envp_cpy);
-	if (!add_node(word, WORD, lexer_list))
+	if (!add_node(word, WORD, lx_lst))
 		return (-1);
 	return (j);
 }
 
-bool	should_expand_var(char *str)
-{
-	int		i;
-	bool	in_single;
-	bool	in_double;
-
-	i = 0;
-	in_single = false;
-	in_double = false;
-	while (str[i])
-	{
-		if (str[i] == '\"' && !in_single)
-			in_double = !in_double;
-		else if (str[i] == '\'' && !in_double)
-			in_single = !in_single;
-		if (str[i] == '$' && !in_single)
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-//gere l'expander dans les quotes
-
-char	*process_word(char *str, char **envp_cpy)
-{
-	char	*expanded_word;
-
-	if (should_expand_var(str))
-	{
-		expanded_word = expand_env_var(str, envp_cpy, 0);
-		free(str);
-		str = expanded_word;
-	}
-	str = remove_quotes(str);
-	return (str);
-}
+//lance les fonctions
 
 int	token_reader(char *str, t_lexer **lexer_list, char **envp_cpy)
 {
@@ -92,7 +56,7 @@ int	token_reader(char *str, t_lexer **lexer_list, char **envp_cpy)
 		j = 0;
 		i += skip_spaces(str, i);
 		if (!str[i])
-			break;
+			break ;
 		if (check_oper(str[i]))
 			j = handle_operator(str, i, lexer_list);
 		else
