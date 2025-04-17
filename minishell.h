@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:52:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/15 19:10:12 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:21:38 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void print_lexer_token(t_lexer *lexer_list);
 void	ft_lexer_add_back(t_lexer **lst, t_lexer *new);
 void	parsing_start(char *input, char **envp_cpy);
 void	add_token_to_cmd(t_simple_cmds *cmd, t_lexer *tmp);
+bool	should_expand_var(char *str);
 //------------------------------------------TESTS------------------------------------------//
 
 void	print_cmd(t_simple_cmds *cmd);

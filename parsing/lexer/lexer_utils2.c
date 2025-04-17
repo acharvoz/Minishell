@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:18:44 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/15 19:10:04 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/17 12:47:00 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,28 @@ void	parsing_start(char *input, char **envp_cpy)
 	print_lexer_token(lexer_list);
 	call_parser(&lexer_list);
 	return ;
+}
+
+char	*ft_strjoin_char(char *s, char c)
+{
+	char	*new_str;
+	int		len;
+	int		i;
+
+	if (!s)
+		len = 0;
+	else
+		len = ft_strlen(s);
+	new_str = malloc(sizeof(char) * (len + 2));
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		new_str[i] = s[i];
+		i++;
+	}
+	new_str[i++] = c;
+	new_str[i] = '\0';
+	return (new_str);
 }

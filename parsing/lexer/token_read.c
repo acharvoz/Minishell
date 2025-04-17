@@ -6,7 +6,7 @@
 /*   By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 05:03:30 by acharvoz          #+#    #+#             */
-/*   Updated: 2025/04/15 19:14:29 by acharvoz         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:26:40 by acharvoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,30 +43,37 @@ int	read_words(int i, char *str, t_lexer **lexer_list, char **envp_cpy)
 	return (j);
 }
 
+bool	should_expand_var(char *str)
+{
+	int		i;
+	bool	in_single;
+	bool	in_double;
+
+	i = 0;
+	in_single = false;
+	in_double = false;
+	while (str[i])
+	{
+		if (str[i] == '\"' && !in_single)
+			in_double = !in_double;
+		else if (str[i] == '\'' && !in_double)
+			in_single = !in_single;
+		if (str[i] == '$' && !in_single)
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 //gere l'expander dans les quotes
 
 char	*process_word(char *str, char **envp_cpy)
 {
-	int		i;
-	bool	expand;
 	char	*expanded_word;
 
-	i = 0;
-	expand = true;
-	while (str[i])
+	if (should_expand_var(str))
 	{
-		if (str[i] == '\'' && expand == true)
-			expand = false;
-		else if (str[i] == '\'' && expand == false)
-			expand = true;
-		if (expand == true && str[i] == '$')
-			break ;
-		i++;
-	}
-	if (expand == true)
-	{
-		expanded_word = ft_strjoin(ft_substr(str, 0, i),
-				expand_env_var(str, envp_cpy, i));
+		expanded_word = expand_env_var(str, envp_cpy, 0);
 		free(str);
 		str = expanded_word;
 	}

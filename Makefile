@@ -6,19 +6,19 @@
 #    By: acharvoz <acharvoz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 19:54:20 by acharvoz          #+#    #+#              #
-#    Updated: 2025/04/15 14:25:04 by acharvoz         ###   ########.fr        #
+#    Updated: 2025/04/17 14:29:24 by acharvoz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS =	main.c							\
 		parsing/signaux.c				\
-		parsing/lexer/lexer_utils.c		\
-		parsing/lexer/lexer_utils2.c	\
-		parsing/lexer/quotes_handle.c	\
 		parsing/lexer/token_read.c		\
-		parsing/lexer/token_read_utils.c\
+		parsing/lexer/expand_var.c		\
+		parsing/lexer/lexer_utils.c		\
 		parsing/lexer/token_handle.c	\
+		parsing/lexer/lexer_utils2.c	\
 		parsing/parser/parser_pipe.c	\
+		parsing/lexer/quotes_handle.c	\
 		parsing/parser/command_utils.c	\
 
 NAME = minishell
