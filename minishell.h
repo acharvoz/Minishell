@@ -60,6 +60,13 @@ typedef struct s_simple_cmds
 	t_lexer					*redirections;
 }	t_simple_cmds;
 
+typedef struct	s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 //-----------------------------------PARSER-------------------------------//
 
 t_tokens		check_oper(int c);
