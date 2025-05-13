@@ -10,108 +10,132 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+//#include "minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 
-void	update_export_value(t_env *env, char *str)
+int len_envp(char **envp_cpy)
 {
-	int	length;
+    int i;
 
-	if (env == NULL)
-		return ;
-	if (env->value)
-		free(env->value);
-	if (*str == '=')
-		str++;
-	length = ft_strlen(str);
-	env->value = malloc(length + 1);
-	length = 0;
-	while (*str)
-		env->value[length++] = *str++;
-	env->value[length] = '\0';
+    i = 0;
+    while (envp_cpy[i] != NULL)
+        i++;
+    return (i);
 }
 
-int	find_env_variable(char *str, t_env *env)
+int print_var_export(char **envp_cpy, int len_envp)
 {
-	size_t	i;
+    int i;
+    int l;
 
 	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	if (i == 0)
-		return (0);
-	while (env)
+    while (i < len_envp)
+    {
+		l = 0;
+		write(1, "declare -x ", 11);
+        while (envp_cpy[i][l])
+        {
+            ft_putchar_fd(envp_cpy[i][l], 1);
+            l++;
+        }
+		write(1, "\n", 1);
+        i++;
+    }
+	return (0);
+}
+
+int export_var_exist(char *str, char **envp_cpy)
+{
+	int	i;
+
+	i = len_envp_key(str);
+	while (*envp_cpy)
 	{
-		if (!ft_strncmp(str, env->key, i) && ft_strlen(env->key) == i)
-		{
-			update_export_value(env, str + i);
+		if (ft_strncmp(str, *envp_cpy, i) == 0 && len_envp_key(*envp_cpy) == i)
 			return (1);
-		}
-		env = env->next;
+		envp_cpy++;
 	}
 	return (0);
 }
 
-char	*get_env_value_by_key(char *key, t_env *env)
+int	validate_export_arg(char *str, char **envp_cpy)
 {
-	size_t	i;
+	int	i;
+	int l;
+	char *tmp;
 
 	i = 0;
-	while (key[i] && key[i] != '=')
-		i++;
-	if (i > 0 && key[i - 1] == '+')
-		i--;
-	while (env)
+	if (!str)
+		return (0);
+	if (ft_isdigit(str[0]) || str[0] == '=')
+		return (0);
+	while (str[i] && str[i] != '=' && str[i] != '+')
 	{
-		if (!ft_strncmp(key, env->key, i) && ft_strlen(env->key) == i)
-			return (env->value);
-		env = env->next;
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
 	}
-	return (NULL);
+	if (str[i] == '+' && str[i + 1] == '=')
+	{
+		i += 2;
+		while (str[i])
+		{
+			tmp[n] = str[i];
+			n++;
+			i++;
+		}
+		while (ft_strncmp(tmp, envp_cpy[l], n) != 0)
+		{
+			l++;
+			if (envp_cpy[l] == NULL)
+				break ;
+		}
+		ft_strjoin(envp_cpy[l], tmp);
+		update_export_var(envp_cpy[l], envp_cpy);	
+		free(tmp);
+	}
+	return (1);
 }
 
-t_env	*get_env_pointer_by_key(char *key, t_env *env)
+void	update_export_var(char *str, char **envp_cpy)
 {
-	size_t	i;
+	int	i;
+	int	l;
 
-	i = 0;
-	while (key[i] && key[i] != '=')
-		i++;
-	if (i > 0 && key[i - 1] == '+')
-		i--;
-	while (env)
+	i = len_envp_key(str);
+	l = 0;
+	while (envp_cpy[l])
 	{
-		if (!ft_strncmp(key, env->key, i) && ft_strlen(env->key) == i)
-			return (env);
-		env = env->next;
+		if (ft_strncmp(str, envp_cpy[l]], i) == 0 && len_envp_key(envp_cpy[l]) == i)
+		{
+			free(envp_cpy[l]);
+			envp_cpy[l] = ft_strdup(str);
+			return ;
+		}
+		l++;
 	}
-	return (NULL);
+	envp_cpy[l] = ft_strdup(str);
+	envp_cpy[l + 1] = NULL;
 }
 
-int	ft_export(char **args, t_env **env)
+int ft_export(char **args, char **envp_cpy)
 {
-	int		result;
-	t_env	*last_env;
+	int		rst;
 
-	result = 0;
-	if (!args || args[0] == NULL)
-		return (print_exported_variables(*env));
-	last_env = *env;
-	while (last_env->next)
-		last_env = last_env->next;
+    if (!args || args[0] == NULL)
+		return (print_var_export(envp_cpy, len_envp(envp_cpy)));
 	while (*args)
 	{
-		if ((find_env_variable(*args, *env) && *args)
-			|| validate_export_argument(*args, &result, *env))
+		rst = 0;
+		if (export_var_exist(*args, envp_cpy) || validate_export_arg(*args))
 		{
-			args++;
-			continue ;
+			update_export_var(*args, envp_cpy);
+			rst = 1;
 		}
-		add_export_entry(*args, &last_env);
-		if (last_env->next)
-			last_env = last_env->next;
-		if (!last_env)
-			result = 1;
 		args++;
 	}
-	return (result);
+	return (rst);
 }
