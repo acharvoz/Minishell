@@ -10,9 +10,4 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int ft_cd(char **args, t_env **env)
-{
-    
-}
+#include "../minishell.h"
