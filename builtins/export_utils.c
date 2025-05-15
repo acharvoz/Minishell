@@ -10,9 +10,45 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
+int	len_envp_key(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=' && str[i] != '+')
+		i++;
+	return (i);
+}
+
+int	len_envp(char **envp_cpy)
+{
+	int	i;
+
+	i = 0;
+	while (envp_cpy[i] != NULL)
+		i++;
+	return (i);
+}
+
+int	print_var_export(char **envp_cpy, int len_envp)
+{
+	int	i;
+	int	l;
+
+	i = 0;
+	while (i < len_envp)
+	{
+		l = 0;
+		write(1, "declare -x ", 11);
+		while (envp_cpy[i][l])
+		{
+			ft_putchar_fd(envp_cpy[i][l], 1);
+			l++;
+		}
+		write(1, "\n", 1);
+		i++;
+	}
+	return (0);
+}
