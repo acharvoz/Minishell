@@ -28,7 +28,7 @@ int	is_valid_identifier(char *key)
 	return (1);
 }
 
-void	unset_var(char **envp_cpy, char *key)
+int	unset_var(char **envp_cpy, char *key)
 {
 	int		i;
 	int 	j;
